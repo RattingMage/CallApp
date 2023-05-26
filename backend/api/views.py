@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView as OriginalObtainPairView
+import requests
 from .models import Room
 from .serializers import (
     RoomSerializer,
@@ -38,6 +39,14 @@ class RegisterAndObtainTokenView(APIView):
         if serializer.is_valid():
             user = serializer.save()
             if user:
+                requests.post(
+                    "http://46.243.201.240:3077/user/makeuser",
+                    json={
+                        "id": user.id,
+                        "fio": user.first_name + " " + user.last_name + "Matrechectvo"
+                    }
+                )
+
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

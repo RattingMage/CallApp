@@ -43,6 +43,7 @@ class User(AbstractUser):
 
     username = None
     email = models.EmailField(_("email address"), unique=True)
+    phone_number = models.CharField(max_length=12, default="")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]
@@ -53,6 +54,12 @@ class Room(models.Model):
 
     """
     Room Model for group calling
+    {
+        user: 0,
+        tittle: "string",
+        description: "string",
+        type_of: "OTA",
+    }
     """
 
     ROOM_TYPE = [
@@ -71,3 +78,5 @@ class Room(models.Model):
 
     def __str__(self):
         return self.title
+
+
